@@ -69,8 +69,11 @@ function startConvert(){
 			biliArr.push(lyrics[i]);
 		}
 	}
-
-	var bilistr = JSON.stringify(biliArr);
+    var bilistr = '[\n';
+    for (key in biliArr){
+    	bilistr += '			' + JSON.stringify(biliArr[key]) + ',\n';
+    }
+    bilistr += '\n]';
 	return bilistr;
 }
 
@@ -93,14 +96,55 @@ function styleBuilder(){
 	var shadowhry = $("#shadowhry").val();
 	var shadowhstrength = $("#shadowhstrength").val();
 	var shadowhinner = String($("#shadowhinner").get(0).checked);
-	var styleTemplate="function style0(cmt, shad){var plw=Player.width;var plh=Player.height;var vdw=Player.videoWidth;var vdh=Player.videoHeight;var rate=vdw/1920;var middleX=plw/2;var tarY=Math.floor(0.5*plh+0.5*vdh-rate*"+posnum+");var fontsize=Math.floor("+fontsize+"*rate);if(fontsize<12) fontsize=12;cmt.filters=[$.createGlowFilter(0x"+fonthcolor+","+fonthalpha+","+fonthrx+","+fonthry+","+fonthstrength+",1,"+fonthinner+",false)];shad.filters=[$.createGlowFilter(0x"+shadowhcolor+","+shadowhalpha+","+shadowhrx+","+shadowhry+","+shadowhstrength+",1,"+shadowhinner+",false)];var frt=$.createTextFormat(\""+font+"\",fontsize,0x"+fontcolor+","+fontbold+",false,false,null,null);var fsd=$.createTextFormat(\""+font+"\",fontsize,0x"+shadowcolor+","+fontbold+",false,false,null,null);shad.setTextFormat(fsd);cmt.setTextFormat(frt);var tarX=Math.floor(middleX-(cmt.width)/2);if(tarX<7) tarX=7;shad.x=tarX+2;shad.y=tarY+2;cmt.x=tarX;cmt.y=tarY;}";
+	var styleTemplate="\
+	function style0(cmt, shad){\n\
+		var plw=Player.width;\n\
+		var plh=Player.height;\n\
+		var vdw=Player.videoWidth;\n\
+		var vdh=Player.videoHeight;\n\
+		var rate=vdw/1920;\n\
+		var middleX=plw/2;\n\
+		var tarY=Math.floor(0.5*plh+0.5*vdh-rate*"+posnum+");\n\
+		var fontsize=Math.floor("+fontsize+"*rate);\n\
+		if(fontsize<12) fontsize=12;\n\
+		cmt.filters=[$.createGlowFilter(0x"+fonthcolor+","+fonthalpha+","+fonthrx+","+fonthry+","+fonthstrength+",1,"+fonthinner+",false)];\n\
+		shad.filters=[$.createGlowFilter(0x"+shadowhcolor+","+shadowhalpha+","+shadowhrx+","+shadowhry+","+shadowhstrength+",1,"+shadowhinner+",false)];\n\
+		var frt=$.createTextFormat(\""+font+"\",fontsize,0x"+fontcolor+","+fontbold+",false,false,null,null);\n\
+		var fsd=$.createTextFormat(\""+font+"\",fontsize,0x"+shadowcolor+","+fontbold+",false,false,null,null);shad.setTextFormat(fsd);\n\
+		cmt.setTextFormat(frt);var tarX=Math.floor(middleX-(cmt.width)/2);if(tarX<7) tarX=7;shad.x=tarX+2;shad.y=tarY+2;cmt.x=tarX;cmt.y=tarY;\n\
+	}";
 	return styleTemplate;
 }
 
 function combineScript(lyricStr, stylepart){
-	var lyricTemplate="//BiliLRCBuilder\nvar lryic="+lyricStr+";";
-	var mainTemplate="var lastTime = 0;var len = lryic.length;function timeMain(){var nowTime = Player.time;for(i=0; i<len; i++){var ts = lryic[i]['start'];var style = lryic[i]['style']?lryic[i]['style']:0;if(lastTime <= ts && nowTime >= ts){var this_ttl=(lryic[i]['end']-nowTime)/1000;dm(lryic[i]['text'],this_ttl,style);}}lastTime=nowTime;}interval(timeMain,200,0);function dm(text, ttl, style){shad=$.createComment(text,{lifeTime: ttl});cmt=$.createComment(text,{lifeTime: ttl});style0(cmt, shad);}";
-	var footerTemplate="//==========================================================\n// 本高级弹幕使用BiliLRCBuilder v1.0生成\n// 高级弹幕脚本AutoBiliLyric v1.2 by Zyzsdy\n// 生成时间："+(new Date().toLocaleString())+"\n//==========================================================";
+	var lyricTemplate="\
+	//BiliLRCBuilder\n\
+	var lryic="+lyricStr+";\n";
+	var mainTemplate="\
+	var lastTime = 0;\n\
+	var len = lryic.length;\n\
+	function timeMain(){var nowTime = Player.time;\n\
+		for(i=0; i<len; i++){\n\
+			var ts = lryic[i]['start'];\n\
+			var style = lryic[i]['style']?lryic[i]['style']:0;\n\
+			if(lastTime <= ts && nowTime >= ts){\n\
+				var this_ttl=(lryic[i]['end']-nowTime)/1000;\n\
+				dm(lryic[i]['text'],this_ttl,style);\n\
+			}\n\
+		}\n\
+		lastTime=nowTime;\n\
+	}\n\
+	interval(timeMain,200,0);\n\
+	function dm(text, ttl, style){\n\
+		shad=$.createComment(text,{lifeTime: ttl});\n\
+		cmt=$.createComment(text,{lifeTime: ttl});\n\
+		style0(cmt, shad);\n\
+	}";
+	var footerTemplate="\
+	//==========================================================\n\
+	// 本高级弹幕使用BiliLRCBuilder v1.0生成\n\
+	// 高级弹幕脚本AutoBiliLyric v1.2 by Zyzsdy\n\
+	//==========================================================";
 	return lyricTemplate+"\n"+mainTemplate+"\n"+stylepart+"\n"+footerTemplate;
 }
 
