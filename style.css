@@ -36,3 +36,8 @@ footer{
 	padding-top: 60px;
 	padding-bottom: 60px;
 }
+.lyric-preview{
+	text-align: center;
+	font-size: 40px;
+	margin: 10px;
+}

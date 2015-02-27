@@ -11,6 +11,27 @@ $(function(){
 		var scriptStr = combineScript(lyricStr, stylepart);
 		$("#resultbox").val(scriptStr);
 	});
+	var preview = $('.lyric-preview');
+	$("#font").change(function(){
+		preview.css('font-family',$(this).val());
+	});
+	$("#fontsize").change(function(){
+		preview.css('font-size',$(this).val() + 'px');
+	});
+	$("#fontbold").change(function(){
+		if ($(this).is(':checked')){
+			preview.css('font-weight','bold');
+		}
+		else{
+			preview.css('font-weight','');
+		}
+	});
+	$('#fontcolor').change(function(){
+		preview.css('color',$(this).val());
+	});
+	$("#shadowcolor,#shadowhalpha,#shadowhrx,#shadowhry,#shadowhstrength").change(function(){
+		preview.css('text-shadow',$('#shadowhrx').val() + 'px ' + $('#shadowhry').val() + 'px ' + $('#shadowhstrength').val() + 'px ' + $('#shadowcolor').val());
+	});
 })
 
 function startConvert(){
@@ -85,16 +106,16 @@ function styleBuilder(){
 	var fontcolor = $("#fontcolor").val().substr(1);
 	var shadowcolor = $("#shadowcolor").val().substr(1);
 	var fonthcolor = $("#fonthcolor").val().substr(1);
-	var fonthalpha = $("#fonthalpha").val();
-	var fonthrx = $("#fonthrx").val();
-	var fonthry = $("#fonthry").val();
-	var fonthstrength = $("#fonthstrength").val();
+	var fonthalpha = $("#fonthalpha").val() || 0;
+	var fonthrx = $("#fonthrx").val() || 0;
+	var fonthry = $("#fonthry").val() || 0;
+	var fonthstrength = $("#fonthstrength").val() || 0;
 	var fonthinner = String($("#fonthinner").get(0).checked);
 	var shadowhcolor = $("#shadowhcolor").val().substr(1);
-	var shadowhalpha = $("#shadowhalpha").val();
-	var shadowhrx = $("#shadowhrx").val();
-	var shadowhry = $("#shadowhry").val();
-	var shadowhstrength = $("#shadowhstrength").val();
+	var shadowhalpha = $("#shadowhalpha").val() || 0;
+	var shadowhrx = $("#shadowhrx").val() || 0;
+	var shadowhry = $("#shadowhry").val() || 0;
+	var shadowhstrength = $("#shadowhstrength").val() || 0;
 	var shadowhinner = String($("#shadowhinner").get(0).checked);
 	var styleTemplate="\
 	function style0(cmt, shad){\n\
@@ -144,6 +165,7 @@ function combineScript(lyricStr, stylepart){
 	//==========================================================\n\
 	// 本高级弹幕使用BiliLRCBuilder v1.0生成\n\
 	// 高级弹幕脚本AutoBiliLyric v1.2 by Zyzsdy\n\
+	// https://github.com/zyzsdy/bililrcbuilder \n\
 	//==========================================================";
 	return lyricTemplate+"\n"+mainTemplate+"\n"+stylepart+"\n"+footerTemplate;
 }

@@ -24,6 +24,9 @@
 			<div class="col-md-offset-2 col-md-8 maindiv maindiv-orange">
 				<h3>Step2 选择歌词显示的样式</h3>
 				<p>如果你看不懂，就啥都不要改。直接跳过吧。</p>
+				<div class="lyric-preview">
+				    <span>歌词效果预览</span>
+				</div>
 				<form class="form-horizontal">
 					<div class="form-group">
 						<label for="position" class="col-md-2 control-label">歌词位置：</label>
@@ -34,14 +37,14 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="posnum" class="col-md-2 control-label">位置微调：</label>
+						<label for="posnum" class="col-md-2 control-label">位置微调</label>
 						<div class="col-md-6">
 							<input type="number" value="150" class="form-control" id="posnum">
 							<span class="help-block">范围：7-1080</span>
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="font" class="col-md-2 control-label">字体选择：</label>
+						<label for="font" class="col-md-2 control-label">字体选择</label>
 						<div class="col-md-6">
 							<select id="font" class="form-control">
 							    <option value="微软雅黑" selected="selected">微软雅黑</option>
@@ -50,38 +53,38 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="fontsize" class="col-md-2 control-label">字 号：</label>
+						<label for="fontsize" class="col-md-2 control-label">字 号</label>
 						<div class="col-md-6">
 							<input type="number" value="45" class="form-control" id="fontsize">
 							<span class="help-block">最小：12</span>
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="fontbold" class="col-md-2 control-label">粗 体：</label>
+						<label for="fontbold" class="col-md-2 control-label">粗 体</label>
 						<div class="col-md-6">
 							<input type="checkbox" id="fontbold" class="form-control">
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="fontcolor" class="col-md-2 control-label">字体颜色：</label>
+						<label for="fontcolor" class="col-md-2 control-label">字体颜色</label>
 						<div class="col-md-6">
 							<input type="color" value="#FFFFFF" class="form-control" id="fontcolor">
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="shadowcolor" class="col-md-2 control-label">阴影颜色：</label>
+						<label for="shadowcolor" class="col-md-2 control-label">阴影颜色</label>
 						<div class="col-md-6">
 							<input type="color" value="#000000" class="form-control" id="shadowcolor">
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="fonthcolor" class="col-md-2 control-label">字体光晕：</label>
+						<label for="fonthcolor" class="col-md-2 control-label">字体光晕</label>
 						<div class="col-md-6">
 							<input type="color" value="#000000" class="form-control" id="fonthcolor">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-md-2 control-label">光晕参数：</label>
+						<label class="col-md-2 control-label">光晕参数<br>(无法预览)</label>
 						<div class="col-md-2">
 							<input type="number" value="1.0" class="form-control" id="fonthalpha">
 							<span class="help-block">不透明度，0~1之间小数。</span>
@@ -104,13 +107,13 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="shadowhcolor" class="col-md-2 control-label">阴影光晕：</label>
+						<label for="shadowhcolor" class="col-md-2 control-label">阴影光晕</label>
 						<div class="col-md-6">
 							<input type="color" value="#000000" class="form-control" id="shadowhcolor">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-md-2 control-label">光晕参数：</label>
+						<label class="col-md-2 control-label">光晕参数<br>(无法预览*)</label>
 						<div class="col-md-2">
 							<input type="number" value="1.0" class="form-control" id="shadowhalpha">
 							<span class="help-block">不透明度，0~1之间小数。</span>
@@ -129,8 +132,11 @@
 						</div>
 						<div class="col-md-2">
 							<input type="checkbox" class="form-control" id="shadowhinner">
-							<span class="help-block">内发光</span>
+							<span class="help-block">内发光<br>(无法预览)</span>
 						</div>
+						<span class="help-block">
+						    预览效果仅供参考以播放器实际渲染为准 <br>*阴影光晕使用css text-shadow粗略模拟预览
+						</span>
 					</div>
 				</form>
 			</div>
