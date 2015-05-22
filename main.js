@@ -125,19 +125,23 @@ function styleBuilder(){
 		var vdh=Player.videoHeight;\n\
 		var rate=vdw/1920;\n\
 		var middleX=plw/2;\n\
-		var tarY=Math.floor(0.5*plh+0.5*vdh-rate*"+posnum+");\n\
-		var fontsize=Math.floor("+fontsize+"*rate);\n\
+		var tarY=Math.floor(0.5*plh+0.5*vdh-rate*" + posnum + ");\n\
+		var fontsize=Math.floor(" + fontsize + "*rate);\n\
 		if(fontsize<12) fontsize=12;\n\
-		cmt.filters=[$.createGlowFilter(0x"+fonthcolor+","+fonthalpha+","+fonthrx+","+fonthry+","+fonthstrength+",1,"+fonthinner+",false)];\n\
-		shad.filters=[$.createGlowFilter(0x"+shadowhcolor+","+shadowhalpha+","+shadowhrx+","+shadowhry+","+shadowhstrength+",1,"+shadowhinner+",false)];\n\
-		var frt=$.createTextFormat(\""+font+"\",fontsize,0x"+fontcolor+","+fontbold+",false,false,null,null);\n\
-		var fsd=$.createTextFormat(\""+font+"\",fontsize,0x"+shadowcolor+","+fontbold+",false,false,null,null);shad.setTextFormat(fsd);\n\
-		cmt.setTextFormat(frt);var tarX=Math.floor(middleX-(cmt.width)/2);if(tarX<7) tarX=7;shad.x=tarX+2;shad.y=tarY+2;cmt.x=tarX;cmt.y=tarY;\n\
+		cmt.filters=[$.createGlowFilter(0x" + fonthcolor + "," + fonthalpha + "," + fonthrx + "," + fonthry + "," + fonthstrength + ",1," + fonthinner + ",false)];\n\
+		shad.filters=[$.createGlowFilter(0x" + shadowhcolor + "," + shadowhalpha + "," + shadowhrx + "," + shadowhry + "," + shadowhstrength + ",1," + shadowhinner + ",false)];\n\
+		var frt=$.createTextFormat(\"" + font + "\",fontsize,0x" + fontcolor + "," + fontbold + ",false,false,null,null);\n\
+		var fsd=$.createTextFormat(\"" + font + "\",fontsize,0x" + shadowcolor + "," + fontbold + ",false,false,null,null);\n\
+		shad.setTextFormat(fsd);\n\
+		cmt.setTextFormat(frt);\n\
+		var tarX=Math.floor(middleX-(cmt.width)/2);\n\
+		if(tarX<7) tarX=7;shad.x=tarX+2;shad.y=tarY+2;cmt.x=tarX;cmt.y=tarY;\n\
 	}";
 	return styleTemplate;
 }
 
 function combineScript(lyricStr, stylepart){
+	var fadetime = $('#fadetime').val();
 	var lyricTemplate="\
 	//BiliLRCBuilder\n\
 	var lryic="+lyricStr+";\n";
@@ -157,8 +161,36 @@ function combineScript(lyricStr, stylepart){
 	}\n\
 	interval(timeMain,200,0);\n\
 	function dm(text, ttl, style){\n\
-		shad=$.createComment(text,{lifeTime: ttl});\n\
-		cmt=$.createComment(text,{lifeTime: ttl});\n\
+		shad=$.createComment(text,{\n\
+			lifeTime: ttl,\n\
+			alpha : 0, \n\
+			motionGroup : [ \n\
+				{\n\
+					alpha : { fromValue : 0 , toValue : 1 , lifeTime : " + fadetime + " }\n\
+				}, \n\
+				{\n\
+					alpha : { fromValue : 1 , toValue : 1 , lifeTime : ttl - " + fadetime*2 + " } \n\
+				}, \n\
+				{\n\
+					alpha : { fromValue : 1 , toValue : 0 , lifeTime : " + fadetime + "  } \n\
+				}\n\
+			]\n\
+		});\n\
+		cmt=$.createComment(text,{\n\
+			lifeTime: ttl,\n\
+			alpha : 0, \n\
+			motionGroup : [ \n\
+				{\n\
+					alpha : { fromValue : 0 , toValue : 1 , lifeTime : " + fadetime + " }\n\
+				}, \n\
+				{\n\
+					alpha : { fromValue : 1 , toValue : 1 , lifeTime : ttl - " + fadetime*2 + " } \n\
+				}, \n\
+				{\n\
+					alpha : { fromValue : 1 , toValue : 0 , lifeTime : " + fadetime + "  } \n\
+				}\n\
+			]\n\
+		});\n\
 		style0(cmt, shad);\n\
 	}";
 	var footerTemplate="\
