@@ -195,8 +195,8 @@ function combineScript(lyricStr, stylepart){
 	}";
 	var footerTemplate="\
 	//==========================================================\n\
-	// 本高级弹幕使用BiliLRCBuilder v1.1生成\n\
-	// 高级弹幕脚本AutoBiliLyric v1.2 by Zyzsdy\n\
+	// 本高级弹幕使用BiliLRCBuilder v1.2生成\n\
+	// 高级弹幕脚本AutoBiliLyric v1.3 by Zyzsdy\n\
 	// https://github.com/zyzsdy/bililrcbuilder \n\
 	//==========================================================";
 	return lyricTemplate+"\n"+mainTemplate+"\n"+stylepart+"\n"+footerTemplate;
