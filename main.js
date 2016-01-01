@@ -140,8 +140,31 @@ function styleBuilder(){
 	return styleTemplate;
 }
 
+function genFadeScript(){
+    var fadetime = $('#fadetime').val();
+    var fadeTemplate="\
+			alpha : 0, \n\
+			motionGroup : [ \n\
+				{\n\
+					alpha : { fromValue : 0 , toValue : 1 , lifeTime : " + fadetime + " }\n\
+				}, \n\
+				{\n\
+					alpha : { fromValue : 1 , toValue : 1 , lifeTime : ttl - " + fadetime*2 + " } \n\
+				}, \n\
+				{\n\
+					alpha : { fromValue : 1 , toValue : 0 , lifeTime : " + fadetime + "  } \n\
+				}\n\
+			]\n";
+    if(fadetime <= 0){
+        return "\
+                alpha: 1\n\
+        ";
+    } else {
+        return fadeTemplate;
+    }
+}
+
 function combineScript(lyricStr, stylepart){
-	var fadetime = $('#fadetime').val();
 	var lyricTemplate="\
 	//BiliLRCBuilder\n\
 	var lryic="+lyricStr+";\n";
@@ -162,34 +185,10 @@ function combineScript(lyricStr, stylepart){
 	interval(timeMain,200,0);\n\
 	function dm(text, ttl, style){\n\
 		shad=$.createComment(text,{\n\
-			lifeTime: ttl,\n\
-			alpha : 0, \n\
-			motionGroup : [ \n\
-				{\n\
-					alpha : { fromValue : 0 , toValue : 1 , lifeTime : " + fadetime + " }\n\
-				}, \n\
-				{\n\
-					alpha : { fromValue : 1 , toValue : 1 , lifeTime : ttl - " + fadetime*2 + " } \n\
-				}, \n\
-				{\n\
-					alpha : { fromValue : 1 , toValue : 0 , lifeTime : " + fadetime + "  } \n\
-				}\n\
-			]\n\
+			lifeTime: ttl,\n" + genFadeScript() + "\
 		});\n\
 		cmt=$.createComment(text,{\n\
-			lifeTime: ttl,\n\
-			alpha : 0, \n\
-			motionGroup : [ \n\
-				{\n\
-					alpha : { fromValue : 0 , toValue : 1 , lifeTime : " + fadetime + " }\n\
-				}, \n\
-				{\n\
-					alpha : { fromValue : 1 , toValue : 1 , lifeTime : ttl - " + fadetime*2 + " } \n\
-				}, \n\
-				{\n\
-					alpha : { fromValue : 1 , toValue : 0 , lifeTime : " + fadetime + "  } \n\
-				}\n\
-			]\n\
+			lifeTime: ttl,\n" + genFadeScript() + "\
 		});\n\
 		style0(cmt, shad);\n\
 	}";
